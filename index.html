@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>farisfades — Barber Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0b0c;
+    --ink-2:#161617;
+    --paper:#f2f1ec;
+    --hazard:#ffc600;
+    --steel:#8a8a86;
+    --line:rgba(242,241,236,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--hazard);color:var(--ink);}
+
+  .display{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Hazard marquee (signature element) ---------- */
+  .hazard-strip{
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--hazard),
+      var(--hazard) 22px,
+      var(--ink) 22px,
+      var(--ink) 44px
+    );
+    height:14px;
+    width:100%;
+  }
+  .marquee{
+    background:var(--hazard);
+    color:var(--ink);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:9px 0;
+    border-top:2px solid var(--ink);
+    border-bottom:2px solid var(--ink);
+  }
+  .marquee-track{
+    display:inline-flex;
+    animation:scroll 18s linear infinite;
+  }
+  .marquee-track span{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.14em;
+    padding:0 20px;
+  }
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .marquee-track{animation:none;}
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 24px;
+  }
+  .brand-mark{
+    font-family:'Anton',sans-serif;
+    font-size:20px;
+    letter-spacing:0.02em;
+  }
+  .brand-mark span{color:var(--hazard);}
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--steel);
+    transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--hazard);}
+  @media (max-width:640px){ .nav-links{display:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 24px 48px;
+    position:relative;
+  }
+  .hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    color:var(--hazard);
+    border:1px solid var(--hazard);
+    padding:6px 12px;
+    margin-bottom:28px;
+  }
+  .dot{width:6px;height:6px;background:var(--hazard);border-radius:50%;animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  .hero h1{
+    font-size:clamp(52px, 12vw, 128px);
+    line-height:0.88;
+    color:var(--paper);
+  }
+  .hero h1 .accent{
+    color:var(--ink);
+    background:var(--hazard);
+    padding:0 12px;
+    display:inline-block;
+  }
+  .hero-sub{
+    max-width:520px;
+    margin-top:28px;
+    font-size:17px;
+    line-height:1.6;
+    color:#c9c9c4;
+  }
+  .hero-cta{
+    display:flex;
+    gap:16px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:16px 28px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    border:2px solid var(--paper);
+    transition:transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .btn-primary{
+    background:var(--hazard);
+    color:var(--ink);
+    border-color:var(--hazard);
+  }
+  .btn-primary:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--paper);}
+  .btn-ghost{
+    color:var(--paper);
+  }
+  .btn-ghost:hover{background:var(--paper);color:var(--ink);}
+
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    margin-top:64px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .hero-meta div{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--steel);}
+  .hero-meta strong{display:block;color:var(--paper);font-size:15px;font-family:'Inter',sans-serif;font-weight:600;margin-bottom:4px;}
+
+  /* ---------- Section shell ---------- */
+  section{padding:80px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:40px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .section-head h2{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(28px,5vw,44px);
+    text-transform:uppercase;
+  }
+  .section-num{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--hazard);
+    font-size:13px;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  @media (max-width:760px){ .about-grid{grid-template-columns:1fr;} }
+  .about-grid p{
+    font-size:16px;
+    line-height:1.75;
+    color:#d4d4cf;
+    margin-bottom:16px;
+  }
+  .stat-card{
+    border:1px solid var(--line);
+    padding:22px;
+    margin-bottom:14px;
+  }
+  .stat-card .num{
+    font-family:'Anton',sans-serif;
+    font-size:36px;
+    color:var(--hazard);
+  }
+  .stat-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--steel);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-top:4px;
+  }
+
+  /* ---------- Portfolio ---------- */
+  .grid-photos{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  @media (max-width:760px){ .grid-photos{grid-template-columns:repeat(2,1fr);} }
+  .photo-slot{
+    position:relative;
+    aspect-ratio:4/5;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .photo-slot .idx{
+    position:absolute;
+    top:10px;
+    left:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--hazard);
+    background:var(--ink);
+    padding:2px 6px;
+  }
+  .photo-slot .ph-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--steel);
+    line-height:1.5;
+  }
+  .photo-slot svg{width:28px;height:28px;margin-bottom:10px;stroke:var(--steel);}
+
+  /* ---------- Services ---------- */
+  .service-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .service-row .name{
+    font-family:'Anton',sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+  }
+  .service-row .desc{
+    font-size:14px;
+    color:var(--steel);
+    margin-top:4px;
+    max-width:420px;
+  }
+  .service-row .price{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    color:var(--hazard);
+    font-size:15px;
+    white-space:nowrap;
+  }
+  .note-box{
+    margin-top:28px;
+    border:1px solid var(--hazard);
+    padding:18px 20px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--hazard);
+    line-height:1.7;
+  }
+
+  /* ---------- Rating & Ulasan ---------- */
+  .rating-head{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    margin-bottom:44px;
+    flex-wrap:wrap;
+  }
+  .rating-score{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(56px,10vw,88px);
+    color:var(--hazard);
+    line-height:1;
+  }
+  .rating-score span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:18px;
+    color:var(--steel);
+  }
+  .rating-side .stars{
+    color:var(--hazard);
+    font-size:20px;
+    letter-spacing:2px;
+  }
+  .rating-side .mono{
+    color:var(--steel);
+    font-size:12px;
+    margin-top:6px;
+    display:block;
+  }
+
+  .testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  @media (max-width:760px){ .testimonial-grid{grid-template-columns:1fr;} }
+  .testimonial-card{
+    border:1px solid var(--line);
+    background:var(--ink-2);
+    padding:26px 22px;
+    position:relative;
+  }
+  .testimonial-card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:repeating-linear-gradient(
+      -45deg, var(--hazard), var(--hazard) 6px, var(--ink-2) 6px, var(--ink-2) 12px
+    );
+  }
+  .testimonial-card .stars{
+    color:var(--hazard);
+    font-size:13px;
+    letter-spacing:2px;
+    margin-bottom:14px;
+  }
+  .testimonial-card .quote{
+    font-size:14.5px;
+    line-height:1.65;
+    color:#d4d4cf;
+    margin-bottom:20px;
+  }
+  .testimonial-card .who{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+  .testimonial-card .who-name{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:13px;
+  }
+  .testimonial-card .who-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--steel);
+    text-transform:uppercase;
+  }
+
+  /* ---------- Contact / Ticket card ---------- */
+  .ticket{
+    border:2px solid var(--paper);
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:stretch;
+  }
+  .ticket-main{padding:40px;}
+  .ticket-main h3{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(30px,6vw,48px);
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .ticket-main p{color:#c9c9c4;font-size:15px;line-height:1.6;max-width:400px;margin-bottom:28px;}
+  .ticket-stub{
+    background:var(--hazard);
+    color:var(--ink);
+    padding:40px 28px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    border-left:2px dashed var(--ink);
+    min-width:200px;
+  }
+  @media (max-width:640px){
+    .ticket{grid-template-columns:1fr;}
+    .ticket-stub{border-left:none;border-top:2px dashed var(--ink);}
+  }
+  .ticket-stub .mono{font-size:12px;letter-spacing:0.06em;}
+  .ticket-stub .ig{font-weight:700;font-size:16px;margin-top:14px;}
+
+  footer{
+    padding:36px 24px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  footer .mono{font-size:11px;color:var(--steel);letter-spacing:0.05em;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+  <nav>
+    <div class="brand-mark">FARIS<span>FADES</span></div>
+    <div class="nav-links">
+      <a href="#tentang">Tentang</a>
+      <a href="#hasil">Hasil Kerja</a>
+      <a href="#layanan">Layanan</a>
+      <a href="#ulasan">Ulasan</a>
+      <a href="#kontak">Kontak</a>
+    </div>
+  </nav>
+
+  <header class="hero wrap">
+    <div class="hero-tag"><span class="dot"></span> OPEN FOR BOOKING</div>
+    <h1>SKIN FADE<br>SPECIALIST<span class="accent">.</span></h1>
+    <p class="hero-sub">Fokus di skin fade &amp; textured crop dengan sentuhan gaya barbershop Korea–Jepang. Setiap garis dipotong presisi, setiap fade selesai bersih.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" id="cta-hero" href="#" target="_blank" rel="noopener">
+        BOOKING VIA WHATSAPP →
+      </a>
+      <a class="btn btn-ghost" href="#hasil">LIHAT HASIL KERJA</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>1 Tahun</strong>Pengalaman</div>
+      <div><strong>Barbershop Vibes Cukur</strong>2025 — Sekarang</div>
+      <div><strong>@faarysl</strong>Instagram</div>
+    </div>
+  </header>
+
+  <div class="hazard-strip"></div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>★ SKIN FADE</span><span>★ TEXTURED CROP</span><span>★ HOME SERVICE TERSEDIA</span><span>★ BOOKING VIA WHATSAPP</span>
+      <span>★ SKIN FADE</span><span>★ TEXTURED CROP</span><span>★ HOME SERVICE TERSEDIA</span><span>★ BOOKING VIA WHATSAPP</span>
+    </div>
+  </div>
+  <div class="hazard-strip"></div>
+
+  <main class="wrap">
+
+    <section id="tentang" class="reveal">
+      <div class="section-head">
+        <h2>Tentang</h2>
+        <span class="section-num mono">01 / TUKANG CUKUR</span>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>Nama saya <strong style="color:var(--paper)">Faris</strong>, tukang cukur yang fokus mengasah satu keahlian sampai benar-benar rapi: skin fade dan textured crop bergaya Korea–Jepang. Bukan soal potong secepat mungkin, tapi soal garis yang bersih dan hasil yang tahan bentuk sampai beberapa minggu ke depan.</p>
+          <p>Saat ini aktif bekerja di <strong style="color:var(--paper)">Barbershop Vibes Cukur</strong> sejak 2025, sekaligus menerima booking home service untuk yang mau dicukur tanpa keluar rumah.</p>
+        </div>
+        <div>
+          <div class="stat-card">
+            <div class="num">1+</div>
+            <div class="label">Tahun Pengalaman</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">2025</div>
+            <div class="label">Bergabung di Vibes Cukur</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hasil" class="reveal">
+      <div class="section-head">
+        <h2>Hasil Kerja</h2>
+        <span class="section-num mono">02 / PORTFOLIO</span>
+      </div>
+      <div class="grid-photos" id="photo-grid"></div>
+    </section>
+
+    <section id="layanan" class="reveal">
+      <div class="section-head">
+        <h2>Layanan</h2>
+        <span class="section-num mono">03 / HARGA</span>
+      </div>
+
+      <div class="service-row">
+        <div>
+          <div class="name">Potong Rambut</div>
+          <div class="desc">Skin fade &amp; textured crop, konsultasi gaya sebelum mulai.</div>
+        </div>
+        <div class="price">Chat untuk harga</div>
+      </div>
+      <div class="service-row">
+        <div>
+          <div class="name">Home Service</div>
+          <div class="desc">Faris datang ke lokasi kamu, alat dibawa lengkap.</div>
+        </div>
+        <div class="price">+ Rp50.000</div>
+      </div>
+
+      <div class="note-box">
+        ⚠ HARGA POTONG RAMBUT MENYESUAIKAN — HUBUNGI VIA WHATSAPP UNTUK INFO TERBARU &amp; JADWAL YANG TERSEDIA.
+      </div>
+    </section>
+
+    <section id="ulasan" class="reveal">
+      <div class="section-head">
+        <h2>Rating &amp; Ulasan</h2>
+        <span class="section-num mono">04 / TESTIMONI</span>
+      </div>
+
+      <div class="rating-head">
+        <div class="rating-score">4.9<span>/5.0</span></div>
+        <div class="rating-side">
+          <div class="stars">★★★★★</div>
+          <span class="mono">BERDASARKAN 12 ULASAN PELANGGAN</span>
+        </div>
+      </div>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Fade-nya rapi banget, sesuai request. Faris juga enak diajak diskusi model sebelum dipotong."</p>
+          <div class="who">
+            <span class="who-name">Yoga Pratama</span>
+            <span class="who-meta">Skin Fade</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Pakai home service, datang tepat waktu dan hasilnya gak kalah sama di barbershop."</p>
+          <div class="who">
+            <span class="who-name">Rian Saputra</span>
+            <span class="who-meta">Home Service</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="quote">"Textured crop paling pas yang pernah aku dapat. Bakal booking lagi bulan depan."</p>
+          <div class="who">
+            <span class="who-name">Bagas Adiwijaya</span>
+            <span class="who-meta">Textured Crop</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="note-box" style="margin-top:24px;">
+        ⚠ TERVERIFIKASI — PELANGGAN ASLI FARISFADES
+      </div>
+    </section>
+
+    <section id="kontak" class="reveal">
+      <div class="section-head">
+        <h2>Booking</h2>
+        <span class="section-num mono">05 / KONTAK</span>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-main">
+          <h3>Siap Dicukur?</h3>
+          <p>Chat langsung, kabari gaya yang kamu mau dan jadwal yang cocok. Faris balas secepatnya.</p>
+          <a class="btn btn-primary" id="cta-contact" href="#" target="_blank" rel="noopener">CHAT WHATSAPP →</a>
+        </div>
+        <div class="ticket-stub">
+          <div>
+            <div class="mono">NO. WHATSAPP</div>
+            <div class="ig">0831-3745-2658</div>
+          </div>
+          <div>
+            <div class="mono">INSTAGRAM</div>
+            <div class="ig">@faarysl</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mono">© 2026 FARISFADES — SEMUA HAK DILINDUNGI</div>
+    <div class="mono">DIBUAT UNTUK KARTU NAMA DIGITAL</div>
+  </footer>
+
+<script>
+  // Generate portfolio slots (6) using local photos 1.jpeg - 6.jpeg
+  const grid = document.getElementById('photo-grid');
+  for(let i=1;i<=6;i++){
+    const slot = document.createElement('div');
+    slot.className = 'photo-slot';
+    slot.innerHTML = `<span class="idx">#${String(i).padStart(2,'0')}</span><img src="${i}.jpeg" alt="Hasil potongan ${i}" style="width:100%;height:100%;object-fit:cover;">`;
+    grid.appendChild(slot);
+  }
+
+  // WhatsApp CTA with prefilled message
+  const phone = '6283137452658';
+  const message = encodeURIComponent('Halo Faris, saya mau booking potong rambut di farisfades.');
+  const waLink = `https://wa.me/${phone}?text=${message}`;
+  document.getElementById('cta-hero').href = waLink;
+  document.getElementById('cta-contact').href = waLink;
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
